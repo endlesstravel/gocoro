@@ -1,9 +1,9 @@
 package gocoro
 
 import (
-	"fmt"
-	"github.com/bmizerany/assert"
 	"testing"
+
+	"gotest.tools/assert"
 )
 
 var panicAt = 0
@@ -42,7 +42,7 @@ func TestInitialStatusName(t *testing.T) {
 func TestYieldOne(t *testing.T) {
 	c := createCoro()
 	i, err := c.Resume()
-	assert.T(t, err == nil)
+	assert.Assert(t, err == nil)
 	assert.Equal(t, StSuspended, c.Status())
 	assert.Equal(t, 1, i)
 }
@@ -53,7 +53,7 @@ func TestYieldMany(t *testing.T) {
 	c.Resume()
 	i, err := c.Resume()
 
-	assert.T(t, err == nil)
+	assert.Assert(t, err == nil)
 	assert.Equal(t, StSuspended, c.Status())
 	assert.Equal(t, 3, i)
 }
@@ -61,7 +61,7 @@ func TestYieldMany(t *testing.T) {
 func TestCancelBeforeStart(t *testing.T) {
 	c := createCoro()
 	err := c.Cancel()
-	assert.T(t, err == nil)
+	assert.Assert(t, err == nil)
 	assert.Equal(t, StDead, c.Status())
 }
 
@@ -71,7 +71,7 @@ func TestCancelAfterSome(t *testing.T) {
 	c.Resume()
 	err := c.Cancel()
 
-	assert.T(t, err == nil)
+	assert.Assert(t, err == nil)
 	assert.Equal(t, StDead, c.Status())
 }
 
@@ -108,7 +108,7 @@ func TestPanicInFn(t *testing.T) {
 	for _, err = c.Resume(); err == nil; _, err = c.Resume() {
 		cnt++
 	}
-	assert.Equal(t, fmt.Errorf("gulp"), err)
+	assert.Error(t, err, "gulp")
 	assert.Equal(t, 2, cnt)
 }
 

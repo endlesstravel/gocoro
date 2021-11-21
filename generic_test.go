@@ -2,9 +2,10 @@ package gocoro
 
 import (
 	"bytes"
-	"github.com/bmizerany/assert"
 	"strings"
 	"testing"
+
+	"gotest.tools/assert"
 )
 
 // This one receives 2, yields 1
